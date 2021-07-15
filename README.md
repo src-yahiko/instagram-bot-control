@@ -1,5 +1,5 @@
 # instagram-bot-control
-- [ ] create fake emails
-- [ ] create instagram accounts
-- [ ] run account automation
+- [ ] (mass) create fake emails
+- [ ] (mass) create instagram accounts
+- [ ] (mass) run account automation
 - [ ] controlpanel
