@@ -22,4 +22,4 @@
   - Avoid known trashmail-domains
     - [ ] Set up own trashmail-server
   - Bypass basic Selenium detection
-    - [ ] [Simple bypass evasions](https://github.com/paulirish/headless-cat-n-mouse/blob/master/apply-evasions.js)
+    - [x] [Simple bypass evasions](https://github.com/paulirish/headless-cat-n-mouse/blob/master/apply-evasions.js)
