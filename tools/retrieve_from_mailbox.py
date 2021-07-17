@@ -14,6 +14,7 @@ def get_instagram_code(email, driver):
             time.sleep(1)
         else:
             break
+        print(t)
 
     code = t[:6]
     driver.switch_to.window(driver.window_handles[0])
@@ -28,7 +29,7 @@ def get_instagram_code_double(email, driver, oldCode):
     code = driver.find_element_by_xpath("/html/body/div[3]/div/div/div[1]/div[2]/a[1]/div[2]").text
     while oldCode == code:
         driver.refresh()
-        # print('Whait for new code!')
+        # print('Wait for new code!')
         time.sleep(1)
         code = driver.find_element_by_xpath("//*[@id='email-table']/div[2]/div[1]/div/h1").text
     

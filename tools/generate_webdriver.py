@@ -52,7 +52,8 @@ def generate(profile="Default", proxyIP=None, url=None, headless=False):
 		uafile.close()
 	options.add_argument(f'--user-agent="{ua}"')
 	if proxyIP != None:
-		print("Proxy not implemented yet")
+		options.add_argument(f'--proxy-server={proxyIP}')
+		#print("Proxy not implemented yet")
 	if headless:
 		options.add_argument("--disable-extensions")
 		options.add_argument("--disable-gpu")
