@@ -8,9 +8,8 @@ import retrieve_from_mailbox
 import control_webdriver as cw
 from time import sleep
 
-driver = generate_webdriver.generate()
 user = generate_account_info.generate()
-#code = retrieve_from_mailbox.get_instagram_code(user['email'], driver)
+driver = generate_webdriver.generate(profile={user['username']})
 
 # Open Sign-Up Page
 driver.get('https://www.instagram.com/accounts/emailsignup/')
@@ -68,7 +67,7 @@ try:
             cw.write_text_to_element(driver, elem_confirm, instCodeNew)
             confInput.send_keys(Keys.ENTER)
       if("proxy" in not_valid.text):
-            exit(not_valid)
+            exit(not_valid.text)
 except:
       pass
 
