@@ -11,7 +11,6 @@ def get_instagram_code(email, driver):
         if t[:4]=="Fake":
             driver.refresh()
             t = driver.title
-            print(t)
             time.sleep(1)
         else:
             break
@@ -26,8 +25,6 @@ def get_instagram_code_double(email, driver, oldCode):
     driver.switch_to.window(driver.window_handles[1])
     driver.get(INST_CODE)
     time.sleep(4)
-
-    print(t)
     code = driver.find_element_by_xpath("/html/body/div[3]/div/div/div[1]/div[2]/a[1]/div[2]").text
     while oldCode == code:
         driver.refresh()

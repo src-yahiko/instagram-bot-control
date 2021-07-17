@@ -50,7 +50,6 @@ def generate(profile="Default", proxyIP=None, url=None, headless=False):
 		uafile = open(f'../selenium_profiles/{profile}/useragent.txt', 'w')
 		uafile.write(ua)
 		uafile.close()
-	print(f'user-agent={ua}')
 	options.add_argument(f'--user-agent="{ua}"')
 	if proxyIP != None:
 		print("Proxy not implemented yet")
