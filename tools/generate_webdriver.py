@@ -1,7 +1,12 @@
+import random
 import undetected_chromedriver.v2 as uc
 from selenium.webdriver.common.proxy import Proxy, ProxyType
+import re
+import requests
 import argparse
 from time import sleep
+import os
+
 
 def parse_arguments():
 	"""Parses the program arguments (fails if required argmuents are not given)"""
@@ -30,24 +35,46 @@ def parse_arguments():
 		required=False,
 		help="Opens a specified url",
 		default="https://intoli.com/blog/not-possible-to-block-chrome-headless/chrome-headless-test.html")
-
 	return parser.parse_args()
 
+
 def generate(profile="Default", proxyIP=None, url=None, headless=False):
+	options = uc.ChromeOptions()
+	ua = get_useragent()
+	try:
+		with open(f'../selenium_profiles/{profile}/useragent.txt') as f:
+			ua = f.readlines()[0]
+	except:
+		try: os.mkdir(f'../selenium_profiles/{profile}/')
+		except: pass
+		uafile = open(f'../selenium_profiles/{profile}/useragent.txt', 'w')
+		uafile.write(ua)
+		uafile.close()
+	print(f'user-agent={ua}')
+	options.add_argument(f'--user-agent="{ua}"')
 	if proxyIP != None:
 		print("Proxy not implemented yet")
-	options = uc.ChromeOptions()
 	if headless:
 		options.add_argument("--disable-extensions")
 		options.add_argument("--disable-gpu")
-		options.add_argument("--no-sandbox") # linux only
+		options.add_argument("--no-sandbox")  # linux only
 		options.add_argument("--headless")
 	options.user_data_dir = f"../selenium_profiles/{profile}"
-	options.add_argument('--no-first-run --no-service-autorun --password-store=basic')
+	options.add_argument(
+		'--no-first-run --no-service-autorun --password-store=basic')
 	driver = uc.Chrome(options=options)
 	if url != None:
 		driver.get(url)
 	return driver
+
+ua_list = []
+userlist=re.sub('\r\n', '\n', str(requests.get('http://pastebin.com/raw/VtUHCwE6').text)).splitlines()
+
+for x in userlist:
+	ua_list.append(x)
+random.shuffle(ua_list)
+def get_useragent():
+	return(str(random.choice(ua_list)))
 
 if __name__ == '__main__':
 	args = parse_arguments()
@@ -55,4 +82,4 @@ if __name__ == '__main__':
 	driver.get(args.url)
 	if args.headless:
 		driver.save_screenshot("_screenshot.png")
-	sleep(60)
+	input("Press any key to exit...")

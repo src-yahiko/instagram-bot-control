@@ -56,18 +56,20 @@ sleep(10)
 
 # Invalid Verification Code Check
 try:
-    not_valid = driver.find_element_by_xpath('/html/body/div[1]/section/main/div/div/div[1]/div[2]/form/div/div[4]/div')
-    if(not_valid.text == 'That code isn\'t valid. You can request a new one.'):
-      sleep(1)
-      driver.find_element_by_xpath('/html/body/div[1]/section/main/div/div/div[1]/div[1]/div[2]/div/button').click()
-      sleep(10)
-      instCodeNew = retrieve_from_mailbox.get_instagram_code_double(user['email'], driver, instCode)
-      confInput = driver.find_element_by_name('email_confirmation_code')
-      confInput.send_keys(Keys.CONTROL + "a")
-      confInput.send_keys(Keys.DELETE)
-      cw.write_text_to_element(driver, elem_confirm, instCodeNew)
-      confInput.send_keys(Keys.ENTER)
+      not_valid = driver.find_element_by_xpath('/html/body/div[1]/section/main/div/div/div[1]/div[2]/form/div/div[4]/div')
+      if(not_valid.text == 'That code isn\'t valid. You can request a new one.'):
+            sleep(1)
+            driver.find_element_by_xpath('/html/body/div[1]/section/main/div/div/div[1]/div[1]/div[2]/div/button').click()
+            sleep(10)
+            instCodeNew = retrieve_from_mailbox.get_instagram_code_double(user['email'], driver, instCode)
+            confInput = driver.find_element_by_name('email_confirmation_code')
+            confInput.send_keys(Keys.CONTROL + "a")
+            confInput.send_keys(Keys.DELETE)
+            cw.write_text_to_element(driver, elem_confirm, instCodeNew)
+            confInput.send_keys(Keys.ENTER)
+      if("proxy" in not_valid.text):
+            exit(not_valid)
 except:
       pass
 
-sleep(60)
+input("Press any key to exit...")
