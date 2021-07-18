@@ -30,7 +30,7 @@ def parse_arguments():
 		"--account-info",
 		required=False,
 		help="Account-info to use",
-		default=generate_account_info.generate())
+		default=None)
 
 	parser.add_argument(
 		"--headless",
@@ -46,13 +46,15 @@ def parse_arguments():
 	return parser.parse_args()
 
 def instagram(user):
+      step = "Starting webdriver..."
       start = time()
-      driver = generate_webdriver.generate(profile=user['username'], headless=args.headless, proxy=args.proxy)
+      try: driver = generate_webdriver.generate(profile=user['username'], headless=args.headless, proxy=args.proxy)
+      except: end(-10, "Browser error", step)
 
       try:
             with open(os.path.join(ROOT_DIR, f'selenium_profiles/{user["username"]}/creds.txt')) as f:
                   creds = f.readlines()[0]
-                  exit("User already exists")
+                  end(-11, "User already exists", step)
       except:
             creds = open(os.path.join(ROOT_DIR, f'selenium_profiles/{user["username"]}/creds.txt'), 'w')
             creds.write(json.dumps(user))
@@ -60,66 +62,81 @@ def instagram(user):
 
       # Open Sign-Up Page
       print("Request page...")
+      print(step)
       driver.get('https://www.instagram.com/accounts/emailsignup/')
       sleep(4)
       if "Login" not in driver.title:
-            exit("Try again later")
+            end(20, "Try again later", step)
 
       # Close Cookie Disclaimer
-      print("Closing cookie disclaimer...")
+      step = "Closing cookie disclaimer..."
+      print(step)
       try: WebDriverWait(driver, 5).until(EC.element_to_be_clickable((By.XPATH, '/html/body/div[3]/div/div/button[1]'))).click()
       except: pass
 
       # Fill Form and Submit
       sleep(4)
-      WebDriverWait(driver, 20).until(EC.element_to_be_clickable((By.NAME, 'emailOrPhone'))).click()
+      try: WebDriverWait(driver, 20).until(EC.element_to_be_clickable((By.NAME, 'emailOrPhone'))).click()
+      except: end(21, "Probably banned", step)
       elem_email = driver.find_element_by_name('emailOrPhone')
       elem_fullName = driver.find_element_by_name('fullName')
       elem_username = driver.find_element_by_name('username')
       elem_password = driver.find_element_by_name('password')
-      print("Fill Form and Submit 1/4")
+      step = "Fill Form and Submit 1/4"
+      print(step)
       cw.write_text_to_element(driver, elem_email, user['email'])
-      print("Fill Form and Submit 2/4")
+      step = "Fill Form and Submit 2/4"
+      print(step)
       cw.write_text_to_element(driver, elem_fullName, user['fullname'])
-      print("Fill Form and Submit 3/4")
+      step = "Fill Form and Submit 3/4"
+      print(step)
       cw.write_text_to_element(driver, elem_username, user['username'])
-      print("Fill Form and Submit 4/4")
+      step = "Fill Form and Submit 4/4"
+      print(step)
       cw.write_text_to_element(driver, elem_password, user['password'])
-      print("Submit Form, Sleep for 4s...")
+      step = "Submit Form, Sleep for 4s..."
+      print(step)
       sleep(4)
       WebDriverWait(driver, 20).until(EC.element_to_be_clickable((By.XPATH, "//*[@id='react-root']/section/main/div/div/div[1]/div/form/div[7]/div/button"))).click()
 
       ##### TODO: Make Human-Like (implement control_webdriver for dropdown)
       # Birthday
-      print("Birthday, Sleep for 4s...")
+      step = "Birthday, Sleep for 4s..."
+      print(step)
       sleep(3)
 
       try: elem_month = driver.find_element_by_xpath("//*[@id='react-root']/section/main/div/div/div[1]/div/div[4]/div/div/span/span[1]/select")
-      except: exit("Probably banned")
+      except: end(22, "Probably banned", step)
       elem_day = driver.find_element_by_xpath("//*[@id='react-root']/section/main/div/div/div[1]/div/div[4]/div/div/span/span[2]/select")
       elem_year = driver.find_element_by_xpath("//*[@id='react-root']/section/main/div/div/div[1]/div/div[4]/div/div/span/span[3]/select")
 
-      print("Birthday 1/3")
+      step = "Birthday 1/3"
+      print(step)
       cw.click_on_element(driver, elem_month)
       sleep(1)
       WebDriverWait(driver, 20).until(EC.element_to_be_clickable((By.XPATH, "//*[@id='react-root']/section/main/div/div/div[1]/div/div[4]/div/div/span/span[1]/select/option[4]"))).click()
-      print("Birthday 2/3")
+      step = "Birthday 2/3"
+      print(step)
       cw.click_on_element(driver, elem_day)
       sleep(1)
       WebDriverWait(driver, 20).until(EC.element_to_be_clickable((By.XPATH, "//*[@id='react-root']/section/main/div/div/div[1]/div/div[4]/div/div/span/span[2]/select/option[10]"))).click()
-      print("Birthday 3/3")
+      step = "Birthday 3/3"
+      print(step)
       cw.click_on_element(driver, elem_year)
       sleep(1)
       WebDriverWait(driver, 20).until(EC.element_to_be_clickable((By.XPATH, "//*[@id='react-root']/section/main/div/div/div[1]/div/div[4]/div/div/span/span[3]/select/option[27]"))).click()
-      print("Submit Birthday, sleep for 1s...")
+      step = "Submit Birthday, sleep for 1s..."
+      print(step)
 
       sleep(1)
       WebDriverWait(driver, 20).until(EC.element_to_be_clickable((By.XPATH, "//*[@id='react-root']/section/main/div/div/div[1]/div/div[6]/button"))).click()
 
       # Submit Verification Code
-      print("Retrieve verification code...")
+      step = "Retrieve verification code..."
+      print(step)
       instCode = retrieve_from_mailbox.get_instagram_code(user['email'], driver)
-      print("Entering verification code...")
+      step = "Entering verification code..."
+      print(step)
       elem_confirm = driver.find_element_by_name('email_confirmation_code')
       cw.write_text_to_element(driver, elem_confirm, instCode)
       driver.find_element_by_name('email_confirmation_code').send_keys(Keys.ENTER)
@@ -129,7 +146,8 @@ def instagram(user):
       try:
             not_valid = driver.find_element_by_xpath('/html/body/div[1]/section/main/div/div/div[1]/div[2]/form/div/div[4]/div')
             if(not_valid.text == 'That code isn\'t valid. You can request a new one.'):
-                  print("New verification code required...")
+                  step = "New verification code required..."
+                  print(step)
                   sleep(1)
                   driver.find_element_by_xpath('/html/body/div[1]/section/main/div/div/div[1]/div[1]/div[2]/div/button').click()
                   sleep(10)
@@ -143,18 +161,32 @@ def instagram(user):
             pass
 
       # Check Result
-      print(f"Script took {start - time()} seconds")
-      print("Check results, save screenshot")
+      step = f"Script took {start - time()} seconds"
+      print(step)
+      step = "Check results"
+      print(step)
       driver.save_screenshot(os.path.join(ROOT_DIR, f"selenium_profiles/{user['username']}/screenshot.png"))
+      if "unusual activity" in driver.page_source: end(10, "Further verification required", step)
+      if "open proxy" in driver.page_source: end(20, "Proxy detected", step)
+      if "Search" in driver.page_source: end(0, "Success", step)
+      end(99, "Unknown result", step)
 
-      if "unusual activity" in driver.page_source: exit("Further verification required")
-      if "open proxy" in driver.page_source: exit("Proxy detected")
-      if "Search" in driver.page_source: exit("Success")
-      exit("Unknown result")
+def end(code, message, last_step):
+      obj = {
+            "code" : code,
+            "message" : message,
+            "last" : last_step,
+            "args" : args.__dict__
+      }
+      exit(json.dumps(obj, indent=4))
 
 if __name__ == '__main__':
       args = parse_arguments()
-      print(json.dumps(args.__dict__, indent=4))
+      if args.account_info == None:
+            try: args.account_info = generate_account_info.generate()
+            except: end(-14, "Error in generate_account_info.generate()", "Running script")
+
       if args.submission_form == "instagram":
             instagram(args.account_info)
-      exit("No such submission-form", args.submission_form)
+
+      end(-12, "No such submission-form", f"Running script {args.submission_form}",)

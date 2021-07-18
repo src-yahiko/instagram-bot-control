@@ -14,9 +14,10 @@
   - headless
   - submission-form (maybe in future: signup through facebook)
   - account-info, `default=generate_account_info.generate()`
-- [ ] For *"Probably banned"* result add Try-Except around the instructions in `tools/create_instragram_account.py create()` (until Submit Birthday)
-- [ ] Add *"Browser error"* result (Try-Except around driver generation in `tools/create_instragram_account.py create()`)
+- [x] For *"Probably banned"* result add Try-Except around the instructions in `tools/create_instragram_account.py create()` (until Submit Birthday)
+- [x] Add *"Browser error"* result (Try-Except around driver generation in `tools/create_instragram_account.py create()`)
 - [ ] Think about functions that contribute to more human-like behavior when using selenium (such like hovering around random elements on the page)
+- [x] Add Exit Codes to `tools/create_instragram_account.py`
 
 # Tools
 - [x] `tools/generate_account_info.py` account-info generation feature "email"
@@ -48,3 +49,11 @@
 
 # Intel
 - [BlackHatWorld: Instagram-Bulk-Account-Creation](https://www.blackhatworld.com/seo/instagram-bulk-account-creation.1329981/)
+
+# Exit-Codes
+Range | Meaning | Example
+------------ | -------------
+ 00 -  09 | Success | 
+ 10 -  19 | Warning | reCAPTCHA
+ 20 -  29 | Failed  | Proxy, IP-Ban, 429,... 
+-10 - -19 | Error | Runtime, Internet, Function-Call, ...
