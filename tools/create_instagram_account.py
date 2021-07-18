@@ -1,3 +1,4 @@
+from logging import info
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.common.by import By
@@ -11,13 +12,42 @@ from time import time
 import json
 from sys import exit
 import os
+import argparse
 from pathlib import Path
 ROOT_DIR = os.path.join(Path(__file__).parent.parent)
 
-user = generate_account_info.generate()
-print(json.dumps(user, indent=4))
-def create(user):
-      driver = generate_webdriver.generate(profile=user['username'], headless=False)
+def parse_arguments():
+	"""Parses the program arguments (fails if required argmuents are not given)"""
+	parser = argparse.ArgumentParser(description="Automated Instagram Account Creation")
+
+	parser.add_argument(
+		"--proxy",
+		required=False,
+		help="Proxy IP address to use",
+		default=None)
+
+	parser.add_argument(
+		"--account-info",
+		required=False,
+		help="Account-info to use",
+		default=generate_account_info.generate())
+
+	parser.add_argument(
+		"--headless",
+		required=False,
+		help="Set the browser to headless, default false",
+		default=False)
+
+	parser.add_argument(
+		"--submission-form",
+		required=False,
+		help="Submission profile",
+		default="instagram")
+	return parser.parse_args()
+
+def instagram(user):
+      start = time()
+      driver = generate_webdriver.generate(profile=user['username'], headless=args.headless, proxy=args.proxy)
 
       try:
             with open(os.path.join(ROOT_DIR, f'selenium_profiles/{user["username"]}/creds.txt')) as f:
@@ -113,6 +143,7 @@ def create(user):
             pass
 
       # Check Result
+      print(f"Script took {start - time()} seconds")
       print("Check results, save screenshot")
       driver.save_screenshot(os.path.join(ROOT_DIR, f"selenium_profiles/{user['username']}/screenshot.png"))
 
@@ -121,7 +152,9 @@ def create(user):
       if "Search" in driver.page_source: exit("Success")
       exit("Unknown result")
 
-
-start = time()
-create(user)
-print(start - time())
+if __name__ == '__main__':
+      args = parse_arguments()
+      print(json.dumps(args.__dict__, indent=4))
+      if args.submission_form == "instagram":
+            instagram(args.account_info)
+      exit("No such submission-form", args.submission_form)

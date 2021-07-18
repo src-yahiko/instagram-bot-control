@@ -41,7 +41,7 @@ def parse_arguments():
 	return parser.parse_args()
 
 
-def generate(profile="Default", proxyIP=None, url=None, headless=False):
+def generate(profile="Default", proxy=None, url=None, headless=False):
 	options = uc.ChromeOptions()
 	ua = get_useragent()
 	try:
@@ -54,8 +54,8 @@ def generate(profile="Default", proxyIP=None, url=None, headless=False):
 		uafile.write(ua)
 		uafile.close()
 	options.add_argument(f'--user-agent="{ua}"')
-	if proxyIP != None:
-		options.add_argument(f'--proxy-server={proxyIP}')
+	if proxy != None:
+		options.add_argument(f'--proxy-server={proxy}')
 		#print("Proxy not implemented yet")
 	if headless:
 		options.add_argument("--disable-extensions")
