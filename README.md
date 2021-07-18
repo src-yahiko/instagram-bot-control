@@ -28,7 +28,7 @@
 - [ ] phonenumber-manager
 
 # Scripts
-- [x] setup for linux to install dependencies
+- [x] `scripts/setup.sh` setup for linux to install dependencies and `scripts/python_requirements.txt`
 - [ ] user creation script pipeline
 - [ ] db connectivity (use sqlite)
 - [ ] clean-up of `/selenium_profiles` (and database)
