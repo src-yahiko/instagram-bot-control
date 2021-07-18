@@ -4,6 +4,9 @@
 - [ ] instagram content scraper
 - [ ] controlpanel GUI
 
+# Next-Steps To-Dos
+- [ ] create database model for accounts, proxies, phonenumbers, signups
+
 # Improvement To-Dos
 - [ ] Add paths relative to file-location in `tools/generate_webdriver.py` and `tools/create_instagram_account.py` (e.g. use `import pathlib`)
 - [ ] Add `parse_arguments()` to `tools/create_instagram_account.py` (see `tools/generate_webdriver.py`)
@@ -26,6 +29,9 @@
 
 # Scripts
 - [x] setup for linux to install dependencies
+- [ ] user creation script pipeline
+- [ ] db connectivity (use sqlite)
+- [ ] clean-up of `/selenium_profiles` (and database)
 
 # Troubles
 * Instagram is suspicious on account creation..
