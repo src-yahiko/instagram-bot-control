@@ -9,10 +9,11 @@
 
 # Improvement To-Dos
 - [x] Add paths relative to file-location in `tools/generate_webdriver.py` and `tools/create_instagram_account.py` (e.g. use `import pathlib`)
-- [ ] Add `parse_arguments()` to `tools/create_instagram_account.py` (see `tools/generate_webdriver.py`)
-  - proxyIP
+- [x] Add `parse_arguments()` to `tools/create_instagram_account.py` (see `tools/generate_webdriver.py`)
+  - proxy
   - headless
-  - user, `default=generate_account_info.generate()`
+  - submission-form (maybe in future: signup through facebook)
+  - account-info, `default=generate_account_info.generate()`
 - [ ] For *"Probably banned"* result add Try-Except around the instructions in `tools/create_instragram_account.py create()` (until Submit Birthday)
 - [ ] Add *"Browser error"* result (Try-Except around driver generation in `tools/create_instragram_account.py create()`)
 - [ ] Think about functions that contribute to more human-like behavior when using selenium (such like hovering around random elements on the page)
