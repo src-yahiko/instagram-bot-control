@@ -1,5 +1,5 @@
 # instagram-bot-control
-- [ ] create instagram accounts
+- [ ] **create instagram accounts**
 - [ ] run account automation
 - [ ] instagram content scraper
 - [ ] controlpanel GUI
