@@ -51,7 +51,8 @@
 - [BlackHatWorld: Instagram-Bulk-Account-Creation](https://www.blackhatworld.com/seo/instagram-bulk-account-creation.1329981/)
 
 # Exit-Codes
-Range | Meaning | Example
+#### `tools/create_instagram_account.py`
+Code | Meaning | Example
 ------------ | ------------- | -------------
 :godmode: 00 to  09 | Success | [@actinyladybug123](https://www.instagram.com/actinyladybug123/)
 :suspect: 10 to  19 | Warning | reCAPTCHA
