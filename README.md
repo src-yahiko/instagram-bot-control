@@ -4,7 +4,7 @@
 - [ ] instagram content scraper
 - [ ] controlpanel GUI
 
-# Improvement To-Do:
+# Improvement To-Dos
 - [ ] Add paths relative to file-location in `tools/generate_webdriver.py` and `tools/create_instagram_account.py` (e.g. use `import pathlib`)
 - [ ] Add `parse_arguments()` to `tools/create_instagram_account.py` (see `tools/generate_webdriver.py`)
   - proxyIP
