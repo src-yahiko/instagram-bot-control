@@ -33,3 +33,6 @@
     - [ ] Set up own trashmail-server
   - Bypass basic Selenium detection
     - [x] [Simple bypass evasions](https://intoli.com/blog/not-possible-to-block-chrome-headless/chrome-headless-test.html)
+
+# Intel
+- [BlackHatWorld: Instagram-Bulk-Account-Creation](https://www.blackhatworld.com/seo/instagram-bulk-account-creation.1329981/)
