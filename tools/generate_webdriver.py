@@ -6,6 +6,9 @@ import requests
 import argparse
 from time import sleep
 import os
+import os
+from pathlib import Path
+ROOT_DIR = os.path.join(Path(__file__).parent.parent)
 
 
 def parse_arguments():
@@ -42,12 +45,12 @@ def generate(profile="Default", proxyIP=None, url=None, headless=False):
 	options = uc.ChromeOptions()
 	ua = get_useragent()
 	try:
-		with open(f'../selenium_profiles/{profile}/useragent.txt') as f:
+		with open(os.path.join(ROOT_DIR, f'selenium_profiles/{profile}/useragent.txt')) as f:
 			ua = f.readlines()[0]
 	except:
-		try: os.mkdir(f'../selenium_profiles/{profile}/')
+		try: os.mkdir(os.path.join(ROOT_DIR, f'selenium_profiles/{profile}/'))
 		except: pass
-		uafile = open(f'../selenium_profiles/{profile}/useragent.txt', 'w')
+		uafile = open(os.path.join(ROOT_DIR, f'selenium_profiles/{profile}/useragent.txt'), 'w')
 		uafile.write(ua)
 		uafile.close()
 	options.add_argument(f'--user-agent="{ua}"')
@@ -59,7 +62,7 @@ def generate(profile="Default", proxyIP=None, url=None, headless=False):
 		options.add_argument("--disable-gpu")
 		options.add_argument("--no-sandbox")  # linux only
 		options.add_argument("--headless")
-	options.user_data_dir = f"../selenium_profiles/{profile}"
+	options.user_data_dir = os.path.join(ROOT_DIR, f"selenium_profiles/{profile}")
 	options.add_argument(
 		'--no-first-run --no-service-autorun --password-store=basic')
 	driver = uc.Chrome(options=options)

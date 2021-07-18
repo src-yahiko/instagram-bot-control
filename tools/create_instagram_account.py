@@ -9,20 +9,22 @@ import control_webdriver as cw
 from time import sleep
 from time import time
 import json
-import shutil
 from sys import exit
+import os
+from pathlib import Path
+ROOT_DIR = os.path.join(Path(__file__).parent.parent)
 
 user = generate_account_info.generate()
 print(json.dumps(user, indent=4))
 def create(user):
-      driver = generate_webdriver.generate(profile=user['username'], headless=True)
+      driver = generate_webdriver.generate(profile=user['username'], headless=False)
 
       try:
-            with open(f'../selenium_profiles/{user["username"]}/creds.txt') as f:
+            with open(os.path.join(ROOT_DIR, f'selenium_profiles/{user["username"]}/creds.txt')) as f:
                   creds = f.readlines()[0]
                   exit("User already exists")
       except:
-            creds = open(f'../selenium_profiles/{user["username"]}/creds.txt', 'w')
+            creds = open(os.path.join(ROOT_DIR, f'selenium_profiles/{user["username"]}/creds.txt'), 'w')
             creds.write(json.dumps(user))
             creds.close()
 
@@ -30,7 +32,7 @@ def create(user):
       print("Request page...")
       driver.get('https://www.instagram.com/accounts/emailsignup/')
       sleep(4)
-      if "not" in driver.title:
+      if "Login" not in driver.title:
             exit("Try again later")
 
       # Close Cookie Disclaimer
@@ -40,7 +42,7 @@ def create(user):
 
       # Fill Form and Submit
       sleep(4)
-      WebDriverWait(driver, 5).until(EC.element_to_be_clickable((By.NAME, 'emailOrPhone'))).click()
+      WebDriverWait(driver, 20).until(EC.element_to_be_clickable((By.NAME, 'emailOrPhone'))).click()
       elem_email = driver.find_element_by_name('emailOrPhone')
       elem_fullName = driver.find_element_by_name('fullName')
       elem_username = driver.find_element_by_name('username')
@@ -112,7 +114,7 @@ def create(user):
 
       # Check Result
       print("Check results, save screenshot")
-      driver.save_screenshot(f"../selenium_profiles/{user['username']}/screenshot.png")
+      driver.save_screenshot(os.path.join(ROOT_DIR, f"selenium_profiles/{user['username']}/screenshot.png"))
 
       if "unusual activity" in driver.page_source: exit("Further verification required")
       if "open proxy" in driver.page_source: exit("Proxy detected")
