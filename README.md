@@ -10,8 +10,8 @@
   - proxyIP
   - headless
   - user, `default=generate_account_info.generate()`
-- [ ] For *"Probably banned"* result add Try-Except around the whole process (until Submit Birthday)
-- [ ] Add *"Browser error"* result (Try-Except around driver generation)
+- [ ] For *"Probably banned"* result add Try-Except around the instructions in `tools/create_instragram_account.py create()` (until Submit Birthday)
+- [ ] Add *"Browser error"* result (Try-Except around driver generation in `tools/create_instragram_account.py create()`)
 - [ ] Create random-hovering above random html-tags function in `tools/control_webdriver.py` to simulate mouse-hovering around the page
 
 # Tools
