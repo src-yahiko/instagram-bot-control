@@ -18,8 +18,8 @@
 - [ ] Think about functions that contribute to more human-like behavior when using selenium (such like hovering around random elements on the page)
 
 # Tools
-- [x] account-info generation feature "email"
-- [x] retrieve code from email
+- [x] `tools/generate_account_info.py` account-info generation feature "email"
+- [x] `tools/retrieve_from_mailbox.py` retrieve code from email
 - [ ] account-info generation feature "phonenumber"
 - [ ] retrieve code from SMS
 - [ ] solve reCAPTCHA
