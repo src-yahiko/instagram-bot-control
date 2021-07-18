@@ -12,7 +12,7 @@
   - user, `default=generate_account_info.generate()`
 - [ ] For *"Probably banned"* result add Try-Except around the instructions in `tools/create_instragram_account.py create()` (until Submit Birthday)
 - [ ] Add *"Browser error"* result (Try-Except around driver generation in `tools/create_instragram_account.py create()`)
-- [ ] Create random-hovering above random html-tags function in `tools/control_webdriver.py` to simulate mouse-hovering around the page
+- [ ] Think about functions that contribute to more human-like behavior when using selenium (such like hovering around random elements on the page)
 
 # Tools
 - [x] account-info generation feature "email"
@@ -21,6 +21,8 @@
 - [ ] retrieve code from SMS
 - [ ] solve reCAPTCHA
 - [ ] solve ImageToText
+- [ ] proxy-manager
+- [ ] phonenumber-manager
 
 # Scripts
 - [x] setup for linux to install dependencies
@@ -31,6 +33,9 @@
     - [x] Use proper Proxies
   - Avoid known trashmail-domains
     - [ ] Set up own trashmail-server
+  - Verify accounts with *unusual activity*
+    - [ ] Use Twilio for phone numbers
+    - [ ] Somehow solve reCAPTCHAs     
   - Bypass basic Selenium detection
     - [x] [Simple bypass evasions](https://intoli.com/blog/not-possible-to-block-chrome-headless/chrome-headless-test.html)
 
