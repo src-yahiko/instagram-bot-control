@@ -24,7 +24,7 @@
 - [x] `tools/retrieve_from_mailbox.py` retrieve code from email
 - [ ] account-info generation feature "phonenumber"
 - [ ] retrieve code from SMS
-- [ ] solve reCAPTCHA
+- [x] solve reCAPTCHA
 - [ ] solve ImageToText
 - [ ] proxy-manager
 - [ ] phonenumber-manager
