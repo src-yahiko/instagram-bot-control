@@ -43,7 +43,7 @@
     - [ ] Set up own trashmail-server
   - Verify accounts with *unusual activity*
     - [ ] Use Twilio for phone numbers
-    - [ ] Somehow solve reCAPTCHAs     
+    - [x] Somehow solve reCAPTCHAs     
   - Bypass basic Selenium detection
     - [x] [Simple bypass evasions](https://intoli.com/blog/not-possible-to-block-chrome-headless/chrome-headless-test.html)
 
