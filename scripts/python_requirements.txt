@@ -1,5 +1,8 @@
-fake_useragent
 bs4
 selenium
 randomuser
 undetected_chromedriver
+SpeechRecognition
+pydub
+ffmpy
+ffmpeg

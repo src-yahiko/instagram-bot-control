@@ -166,7 +166,10 @@ def instagram(user):
       step = "Check results"
       print(step)
       driver.save_screenshot(os.path.join(ROOT_DIR, f"selenium_profiles/{user['username']}/screenshot.png"))
-      if "unusual activity" in driver.page_source: end(10, "Further verification required", step)
+      if "unusual activity" in driver.page_source:
+            print("Solving reCAPTCHA")
+            cw.solve_recaptcha(driver)
+            end(10, "Further verification required", step)
       if "open proxy" in driver.page_source: end(20, "Proxy detected", step)
       if "Search" in driver.page_source: end(0, "Success", step)
       end(99, "Unknown result", step)

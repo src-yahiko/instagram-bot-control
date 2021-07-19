@@ -6,7 +6,6 @@ import requests
 import argparse
 from time import sleep
 import os
-import os
 from pathlib import Path
 ROOT_DIR = os.path.join(Path(__file__).parent.parent)
 
@@ -53,10 +52,9 @@ def generate(profile="Default", proxy=None, url=None, headless=False):
 		uafile = open(os.path.join(ROOT_DIR, f'selenium_profiles/{profile}/useragent.txt'), 'w')
 		uafile.write(ua)
 		uafile.close()
-	options.add_argument(f'--user-agent="{ua}"')
+	options.add_argument(f'--user-agent={ua}')
 	if proxy != None:
 		options.add_argument(f'--proxy-server={proxy}')
-		#print("Proxy not implemented yet")
 	if headless:
 		options.add_argument("--disable-extensions")
 		options.add_argument("--disable-gpu")
@@ -78,6 +76,25 @@ for x in userlist:
 random.shuffle(ua_list)
 def get_useragent():
 	return(str(random.choice(ua_list)))
+
+def restart_with_new_useragent(driver, t=1):
+	PROFILE = list(filter(lambda x: "user-data-dir" in x, driver.__dict__['options'].__dict__['_arguments']))[0].split("/")[-1]
+	DRIVER_OPTIONS = list(filter(lambda x: "--user-agent" not in x, driver.__dict__['options'].__dict__['_arguments']))
+	URL = driver.current_url
+	driver.quit()
+
+	ua = get_useragent()
+	uafile = open(os.path.join(ROOT_DIR, f'selenium_profiles/{PROFILE}/useragent.txt'), 'w')
+	uafile.write(ua)
+	uafile.close()
+	options = uc.ChromeOptions()
+	for option in DRIVER_OPTIONS:
+		options.add_argument(option)
+	options.add_argument(f'--user-agent={ua}')
+	new_driver = uc.Chrome(options=options)
+	sleep(t)
+	new_driver.get(URL)
+	return new_driver
 
 if __name__ == '__main__':
 	args = parse_arguments()
