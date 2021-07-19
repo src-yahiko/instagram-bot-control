@@ -51,9 +51,10 @@
 - [BlackHatWorld: Instagram-Bulk-Account-Creation](https://www.blackhatworld.com/seo/instagram-bulk-account-creation.1329981/)
 
 # Exit-Codes
-Range | Meaning | Example
------------- | -------------
- 00 -  09 | Success | 
- 10 -  19 | Warning | reCAPTCHA
- 20 -  29 | Failed  | Proxy, IP-Ban, 429,... 
--10 - -19 | Error | Runtime, Internet, Function-Call, ...
+#### `tools/create_instagram_account.py`
+Code | Meaning | Example
+------------ | ------------- | -------------
+:godmode: 00 to  09 | Success | [@actinyladybug123](https://www.instagram.com/actinyladybug123/)
+:suspect: 10 to  19 | Warning | reCAPTCHA
+:feelsgood: 20 to  29 | Failed  | Proxy, IP-Ban, 429,... 
+:goberserk:-10 to -19 | Error | Runtime, Internet, Function-Call, ...
