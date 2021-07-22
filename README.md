@@ -39,6 +39,7 @@
 
 # Intel
 - [BlackHatWorld: Instagram-Bulk-Account-Creation](https://www.blackhatworld.com/seo/instagram-bulk-account-creation.1329981/)
+- [Proxy Provider: thesocialproxy](https://thesocialproxy.com/dashboard/)
 
 # Exit-Codes
 #### `tools/create_instagram_account.py`
