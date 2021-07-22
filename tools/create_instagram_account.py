@@ -140,7 +140,7 @@ def instagram(user):
       elem_confirm = driver.find_element_by_name('email_confirmation_code')
       cw.write_text_to_element(driver, elem_confirm, instCode)
       driver.find_element_by_name('email_confirmation_code').send_keys(Keys.ENTER)
-      sleep(10)
+      sleep(15)
 
       # Invalid Verification Code Check
       try:

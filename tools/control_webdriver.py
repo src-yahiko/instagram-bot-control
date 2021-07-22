@@ -41,7 +41,7 @@ def solve_recaptcha(driver):
     driver.switch_to.default_content()
     driver.switch_to.frame(driver.find_element_by_xpath("//iframe[@title='recaptcha challenge']"))
     d=True
-    while d or "multiple" in driver.page_srouce:
+    while d or "multiple" in driver.page_source:
         d=False
         driver.find_element_by_id("recaptcha-audio-button").click()
 

@@ -60,6 +60,8 @@ def generate(profile="Default", proxy=None, url=None, headless=False):
 		options.add_argument("--disable-gpu")
 		options.add_argument("--no-sandbox")  # linux only
 		options.add_argument("--headless")
+	options.add_argument('--ignore-certificate-errors')
+	options.add_argument('ignore-certificate-errors')
 	options.user_data_dir = os.path.join(ROOT_DIR, f"selenium_profiles/{profile}")
 	options.add_argument(
 		'--no-first-run --no-service-autorun --password-store=basic')
