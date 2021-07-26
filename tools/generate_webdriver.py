@@ -37,15 +37,32 @@ def parse_arguments():
 		required=False,
 		help="Opens a specified url",
 		default="https://intoli.com/blog/not-possible-to-block-chrome-headless/chrome-headless-test.html")
+
+	parser.add_argument(
+		"--pref",
+		required=False,
+		help="Additional Chrome options",
+		default="")
+
+	parser.add_argument(
+		"--useragent",
+		required=False,
+		help="Browser Useragent, default is random or last used",
+		default=None)
+
 	return parser.parse_args()
 
 
-def generate(profile="Default", proxy=None, url=None, headless=False):
+def generate(profile="Default", proxy=None, url=None, headless=False, pref="", useragent=None):
 	options = uc.ChromeOptions()
-	ua = get_useragent()
+	if useragent == None:
+		ua = get_useragent()
+	else:
+		ua = useragent
 	try:
-		with open(os.path.join(ROOT_DIR, f'selenium_profiles/{profile}/useragent.txt')) as f:
-			ua = f.readlines()[0]
+		if useragent == None:
+			with open(os.path.join(ROOT_DIR, f'selenium_profiles/{profile}/useragent.txt')) as f:
+				ua = f.readlines()[0]
 	except:
 		try: os.mkdir(os.path.join(ROOT_DIR, f'selenium_profiles/{profile}/'))
 		except: pass
@@ -60,11 +77,14 @@ def generate(profile="Default", proxy=None, url=None, headless=False):
 		options.add_argument("--disable-gpu")
 		options.add_argument("--no-sandbox")  # linux only
 		options.add_argument("--headless")
-	options.add_argument('--ignore-certificate-errors')
-	options.add_argument('ignore-certificate-errors')
+	options.add_argument("--ignore-ssl-errors=yes")
+	options.add_argument("--ignore-certificate-errors")
+	options.AcceptInsecureCertificates = True
+	if pref != "":
+		options.add_argument(pref)
 	options.user_data_dir = os.path.join(ROOT_DIR, f"selenium_profiles/{profile}")
-	options.add_argument(
-		'--no-first-run --no-service-autorun --password-store=basic')
+	for a in ['--no-first-run', '--no-service-autorun', '--password-store=basic']:
+		options.add_argument(a)
 	driver = uc.Chrome(options=options)
 	if url != None:
 		driver.get(url)
@@ -100,7 +120,7 @@ def restart_with_new_useragent(driver, t=1):
 
 if __name__ == '__main__':
 	args = parse_arguments()
-	driver = generate(args.profile, args.proxy, headless=args.headless)
+	driver = generate(args.profile, args.proxy, headless=args.headless, pref=args.pref, useragent=args.useragent)
 	driver.get(args.url)
 	if args.headless:
 		driver.save_screenshot("_screenshot.png")

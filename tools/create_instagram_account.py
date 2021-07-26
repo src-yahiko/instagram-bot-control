@@ -43,12 +43,18 @@ def parse_arguments():
 		required=False,
 		help="Submission profile",
 		default="instagram")
+
+	parser.add_argument(
+		"--useragent",
+		help="Set browser Useragent",
+		default=None)
+
 	return parser.parse_args()
 
 def instagram(user):
       step = "Starting webdriver..."
       start = time()
-      try: driver = generate_webdriver.generate(profile=user['username'], headless=args.headless, proxy=args.proxy)
+      try: driver = generate_webdriver.generate(profile=user['username'], headless=args.headless, proxy=args.proxy, useragent=args.useragent)
       except: end(-10, "Browser error", step)
 
       try:
@@ -166,12 +172,13 @@ def instagram(user):
       step = "Check results"
       print(step)
       driver.save_screenshot(os.path.join(ROOT_DIR, f"selenium_profiles/{user['username']}/screenshot.png"))
+      input()
       if "unusual activity" in driver.page_source:
             print("Solving reCAPTCHA")
             cw.solve_recaptcha(driver)
             end(10, "Further verification required", step)
-      if "open proxy" in driver.page_source: end(20, "Proxy detected", step)
-      if "Search" in driver.page_source: end(0, "Success", step)
+      if "proxy" in driver.page_source: end(20, "Proxy detected", step)
+      if "turn on" in driver.page_source: end(0, "Success", step)
       end(99, "Unknown result", step)
 
 def end(code, message, last_step):
